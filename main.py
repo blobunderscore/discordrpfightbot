@@ -12,8 +12,8 @@ intents.members = True  # Needed for user mentions
 class DuelBot(commands.Bot):
     def __init__(self):
         super().__init__(command_prefix="!", intents=intents)
-        self.tree = app_commands.CommandTree(self)
-        self.duels = {}  # Store ongoing duels by channel ID
+        self.duels = {}
+
 
     async def setup_hook(self):
         await self.tree.sync()
