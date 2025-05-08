@@ -26,8 +26,23 @@ class Duel:
 async def on_ready():
     print(f'Logged in as {bot.user}!')
 
-@bot.slash_command(name="duel", description="Challenge someone to a duel!")
-async def duel(ctx, opponent: discord.Member):
+from discord import app_commands
+
+class MyClient(commands.Bot):
+    def __init__(self):
+        super().__init__(command_prefix="/", intents=discord.Intents.all())
+        self.tree = app_commands.CommandTree(self)
+
+    async def setup_hook(self):
+        await self.tree.sync()
+
+bot = MyClient()
+
+@bot.tree.command(name="duel", description="Challenge someone to a duel!")
+@app_commands.describe(opponent="The person you want to fight")
+async def duel(interaction: discord.Interaction, opponent: discord.Member):
+    # your duel logic here
+    await interaction.response.send_message(f"{interaction.user.mention} is challenging {opponent.mention} to a duel!")
     if ctx.author.id == opponent.id:
         await ctx.respond("You can't duel yourself!", ephemeral=True)
         return
