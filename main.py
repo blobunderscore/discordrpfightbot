@@ -31,7 +31,6 @@ from discord import app_commands
 class MyClient(commands.Bot):
     def __init__(self):
         super().__init__(command_prefix="/", intents=discord.Intents.all())
-        self.tree = app_commands.CommandTree(self)
 
     async def setup_hook(self):
         await self.tree.sync()
